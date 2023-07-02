@@ -37,6 +37,6 @@ public static class AuthenticationEndpointsExtension
 
     public class LogInDto
     {
-        public string UserEmail { get; set;}
+        public string? UserEmail { get; set;}
     }
 }

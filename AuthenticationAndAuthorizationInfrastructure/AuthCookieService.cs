@@ -19,9 +19,9 @@ namespace AuthenticationAndAuthorizationInfrastructure
             remove(AuthCookieKey);
         }
 
-        public static OneOf<KeyValuePair<string, string>, Error> GetKeyValueFromAuthCookieByKey(IEnumerable<KeyValuePair<string, string>> cookies, string key, Func<string, string> unProtector)
+        public static OneOf<KeyValuePair<string, string>, Error> GetKeyValueFromAuthCookieByKey(IEnumerable<KeyValuePair<string, string>>? cookies, string key, Func<string, string> unProtector)
         {
-            if (!cookies.Any(c => c.Key == AuthCookieKey))
+            if (cookies == null || !cookies.Any(c => c.Key == AuthCookieKey))
                 return Error.Create("Auth Cookie Not Found");
 
             string cookieValue = cookies.FirstOrDefault(c => c.Key == AuthCookieKey).Value;

@@ -64,7 +64,7 @@ namespace AuthenticationAndAuthorizationSpecs.Services
         public void GetUserIdFromClaim_WithInvalidClaim_ReturnsError()
         {
             // Arrange
-            _httpContext.User = null; // Simulate no user logged in
+            _httpContext.User = new ClaimsPrincipal(); // Simulate no user logged in
 
             // Act
             var result = _claimsService.GetUserIdFromClaim();
@@ -89,7 +89,7 @@ namespace AuthenticationAndAuthorizationSpecs.Services
         public void GetUserRoleIdFromClaim_WithInvalidClaim_ReturnsError()
         {
             // Arrange
-            _httpContext.User = null; // Simulate no user logged in
+            _httpContext.User = new ClaimsPrincipal(); // Simulate no user logged in
 
             // Act
             var result = _claimsService.GetUserRoleIdFromClaim();

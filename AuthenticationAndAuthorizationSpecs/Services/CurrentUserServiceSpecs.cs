@@ -49,9 +49,6 @@ namespace AuthenticationAndAuthorizationSpecs.Services
         [Test]
         public void Get_WithInvalidUserId_ReturnsError()
         {
-            // Arrange
-            long userId = 1;
-
             // Mock the GetUserIdFromClaim method to return an error
             A.CallTo(() => _claimsService.GetUserIdFromClaim())
                 .Returns(OneOf<long, Error>.FromT1(Error.Create("No user is logged in")));
