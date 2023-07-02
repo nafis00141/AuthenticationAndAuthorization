@@ -5,9 +5,9 @@ name: .NET
 
 on:
   push:
-    branches: [ "custom-coookie-auth" ]
+    branches: [ "custom-coookie-auth", "build-in-cookie-auth" ]
   pull_request:
-    branches: [ "custom-coookie-auth" ]
+    branches: [ "custom-coookie-auth", "build-in-cookie-auth" ]
 
 jobs:
   build:

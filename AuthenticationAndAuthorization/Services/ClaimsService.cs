@@ -1,12 +1,11 @@
-﻿using AuthenticationAndAuthorizationInfrastructure.Result;
-using OneOf;
+﻿using OneOf;
 using System.Security.Claims;
 
 namespace AuthenticationAndAuthorization.Services
 {
     public interface IClaimsService
     {
-        ClaimsPrincipal Create(long userId, int userRoleId);
+        ClaimsPrincipal Create(long userId, int userRoleId, string? authenticationType = "CustomCookieAuthentication");
         OneOf<long, Error> GetUserIdFromClaim();
         OneOf<long, Error> GetUserRoleIdFromClaim();
     }
@@ -22,9 +21,9 @@ namespace AuthenticationAndAuthorization.Services
             _contextAccessor = httpContextAccessor;
         }
 
-        public ClaimsPrincipal Create(long userId, int userRoleId)
+        public ClaimsPrincipal Create(long userId, int userRoleId, string? authenticationType = "CustomCookieAuthentication")
         {
-            var identity = new ClaimsIdentity(new[] { new Claim(UserIdClaimType, $"{userId}"), new Claim(UserRoleIdClaimType, $"{userRoleId}") }, "CustomCookieAuthentication");
+            var identity = new ClaimsIdentity(new[] { new Claim(UserIdClaimType, $"{userId}"), new Claim(UserRoleIdClaimType, $"{userRoleId}") }, authenticationType);
             return new ClaimsPrincipal(identity);
         }
 

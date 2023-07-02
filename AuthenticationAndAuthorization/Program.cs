@@ -1,18 +1,18 @@
 using AuthenticationAndAuthorization.Infrastructure;
 using AuthenticationAndAuthorization.Infrastructure.Swagger;
-using AuthenticationAndAuthorizationInfrastructure.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.RegisterSwagger();
 builder.Services.RegisterServices();
-builder.Services.RegisterAuthenticationServices();
+
+builder.Services.AddAuthentication(AuthenticationSchemes.DefaultAuthenticationScheme).AddCookie(AuthenticationSchemes.CookieAuthenticationScheme);
+
 
 var app = builder.Build();
 
-app.UseMiddleware<AuthenticationMiddleware>();
-
+app.UseAuthentication();
 
 app.MapAuthenticationEndpoints();
 

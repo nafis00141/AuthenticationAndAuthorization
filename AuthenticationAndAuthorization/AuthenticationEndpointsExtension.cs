@@ -1,10 +1,11 @@
 ﻿using AuthenticationAndAuthorization.Services;
+using Microsoft.AspNetCore.Authentication;
 
 public static class AuthenticationEndpointsExtension
 {
     public static void MapAuthenticationEndpoints(this WebApplication app)
     {
-        app.MapPost("/login", (LogInDto? logInDto, IUserService userService, IAuthCookieProvider authCookieProvider) =>
+        app.MapPost("/login", async (LogInDto? logInDto, HttpContext ctx, IUserService userService, IClaimsService claimsService) =>
         {
             if (logInDto == null || string.IsNullOrEmpty(logInDto.UserEmail)) return Results.BadRequest("No user email");
 
@@ -12,14 +13,17 @@ public static class AuthenticationEndpointsExtension
 
             if (user == null) return Results.NotFound();
 
-            authCookieProvider.AddAuthCookieFor(user);
+            var claimsPrincipal = claimsService.Create(user.Id, (int)user.Role);
+
+            await ctx.SignInAsync(AuthenticationSchemes.CookieAuthenticationScheme, claimsPrincipal);
 
             return Results.Ok();
         });
 
-        app.MapGet("/logout", (IAuthCookieProvider authCookieProvider) =>
+        app.MapGet("/logout", async (HttpContext ctx) =>
         {
-            authCookieProvider.RemoveAuthCookie();
+            //authCookieProvider.RemoveAuthCookie();
+            await ctx.SignOutAsync();
             return Results.Ok();
         });
 

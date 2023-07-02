@@ -1,5 +1,4 @@
 ﻿using AuthenticationAndAuthorization.Services;
-using AuthenticationAndAuthorizationInfrastructure.Result;
 using FakeItEasy;
 using OneOf;
 
