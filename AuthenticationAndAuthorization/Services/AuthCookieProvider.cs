@@ -3,9 +3,6 @@ using AuthenticationAndAuthorizationInfrastructure;
 using AuthenticationAndAuthorizationInfrastructure.Result;
 using Microsoft.AspNetCore.DataProtection;
 using OneOf;
-using System.Collections.Generic;
-using System.Net;
-using System.Runtime.Intrinsics.Arm;
 
 public interface IAuthCookieProvider
 {
@@ -51,7 +48,11 @@ public class AuthCookieProvider : IAuthCookieProvider
     public void RemoveAuthCookie()
     {
         var ctx = _httpContextAccessor.HttpContext;
-        AuthCookieService.RemoveAuthCookie(ctx.Response.Cookies.Delete);
+
+        if(ctx != null) 
+        {
+            AuthCookieService.RemoveAuthCookie(ctx.Response.Cookies.Delete);
+        }
     }
 
     public OneOf<long, Error> GetUserIdFromAuthCookie()
